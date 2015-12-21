@@ -1,9 +1,36 @@
 var React = require('react');
+var request = require('superagent');
+var slug = require('slug');
 
 bookmarks = [
   {title: "title 01", link: "http://bookmark.com/"},
   {title: "title 02", link: "http://bookmark2.com/"}
 ]
+
+var data = {
+
+	getBookmarks: function(callback){
+		request
+			.get('/api/bookmarks')
+			.set('Accept', 'application/json')
+			.end(function (err, res) {
+				callback(err, res.body);
+			});
+	},
+	createBookmark: function(bookmark, callback){
+		request
+			.post('/api/bookmarks')
+			.send(bookmark)
+			.end(function (err, res) {
+				callback(err, res.body);
+			});
+	},
+	deleteBookmark: function(bookmark, callback){
+		request
+			.del('api/bookmarks/' + slug(bookmark.link))
+			.end(callback);
+	}
+}
 
 var BookmarkList = React.createClass({
 	getInitialState: function(){
@@ -18,6 +45,9 @@ var BookmarkList = React.createClass({
 		bookmarks.push(bookmark);
 
 		this.setState({bookmarks: bookmarks});
+
+		//Here we save the change to the server
+		data.createBookmark(bookmark, function() {});
 	},
 	removeLine: function(line){
 		var bookmarks = this.state.bookmarks;
@@ -29,6 +59,9 @@ var BookmarkList = React.createClass({
       var bookmark = bookmarks.splice(index, 1)[0];
 
       this.setState({bookmarks: bookmarks});
+
+      //Here we save the delete to the server
+      data.deleteBookmark(bookmark, function () {});
     }
 	},
 	render: function(){
@@ -97,5 +130,6 @@ var App = React.createClass({
   }
 });
 
-
-React.render(<App bookmarks={bookmarks} ></App>, document.getElementById('app'));
+data.getBookmarks(function (err, bookmarks) {
+	React.render(<App bookmarks={bookmarks} ></App>, document.getElementById('app'));
+});
