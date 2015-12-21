@@ -19,12 +19,24 @@ var BookmarkList = React.createClass({
 
 		this.setState({bookmarks: bookmarks});
 	},
+	removeLine: function(line){
+		var bookmarks = this.state.bookmarks;
+    var index = 0;
+    while (index < bookmarks.length && bookmarks[index].link !== line.link) {
+      index++;
+    }
+    if (index < bookmarks.length) {
+      var bookmark = bookmarks.splice(index, 1)[0];
+
+      this.setState({bookmarks: bookmarks});
+    }
+	},
 	render: function(){
 		var removeLine = this.removeLine;
 
 		var bookmarks = this.state.bookmarks.map( function(bookmark) {
 			return (
-				<Bookmark title={bookmark.title} link={bookmark.link}></Bookmark>
+				<Bookmark title={bookmark.title} link={bookmark.link} removeLine={removeLine}></Bookmark>
 			);
 		});
 
@@ -50,6 +62,11 @@ var BookmarkList = React.createClass({
 });
 
 var Bookmark = React.createClass({
+	onDeleteClicked: function(){
+		bookmark = this.props;
+		this.props.removeLine(bookmark);
+
+	},
 	render: function(){
 		return (
 			<div>
@@ -58,6 +75,9 @@ var Bookmark = React.createClass({
 					<a href={this.props.link} target="_blank">
 						{this.props.link}
 					</a>
+				</p>
+				<p>
+					<button onClick={this.onDeleteClicked}>X</button>
 				</p>
 			</div>
 		);
