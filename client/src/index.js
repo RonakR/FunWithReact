@@ -9,6 +9,16 @@ var BookmarkList = React.createClass({
 	getInitialState: function(){
 		return {bookmarks: this.props.bookmarks};
 	},
+	onAddClicked: function(){
+		var bookmarks = this.state.bookmarks;
+		var title = this.refs.titleInput.getDOMNode().value;
+		var link = this.refs.linkInput.getDOMNode().value;
+
+		var bookmark = {title: title, link: link};
+		bookmarks.push(bookmark);
+
+		this.setState({bookmarks: bookmarks});
+	},
 	render: function(){
 		var removeLine = this.removeLine;
 
@@ -35,7 +45,7 @@ var BookmarkList = React.createClass({
 					{bookmarks}
 				</div>
 			</div>
-		)
+		);
 	}
 });
 
