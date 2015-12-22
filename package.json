@@ -1,0 +1,30 @@
+{
+  "name": "fun-with-react",
+  "version": "1.0.0",
+  "description": "react app, server side",
+  "main": "server.js",
+  "scripts": {
+    "build": "cd client && npm run-script build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/RonakR/FunWithReact.git"
+  },
+  "author": "Ronak Raithatha <ronaksraithatha@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/RonakR/FunWithReact/issues"
+  },
+  "homepage": "https://github.com/RonakR/FunWithReact#readme",
+  "dependencies": {
+    "body-parser": "1.12.2",
+    "express": "4.12.3",
+    "express-error-handler": "1.0.1",
+    "method-override": "2.3.2",
+    "morgan": "1.5.2",
+    "path-extra": "1.0.2",
+    "pouchdb": "3.3.1",
+    "leveldown": "1.4.2",
+    "slug": "0.8.0"
+  }
+}
